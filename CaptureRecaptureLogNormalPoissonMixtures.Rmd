@@ -11,3 +11,12 @@ We can assume that the abundances themselves follow a distribution, possibly due
 
 The log-Normal has a long but tumultuous history in species sampling models.  The log-Normal was originally proposed by Preston [Ecology, 1948](http://www.planta.cn/forum/files_planta/the_commonness_and_rarity_of_species_144.pdf) as an alternative to the Negative Binomial and log-series distribution put forth by Fisher, Corbett, and William [J Animal Ecology, 1943](http://www.math.mcgill.ca/~dstephens/556-2008/Papers/Fisher1943.pdf).  Closed form maximum likelihood estimators were presented in [Bulmer, Biometrics, 1974](http://hs225104.lx-server.de/data/ifaoe/wrrl/Methoden/Species-Abundance-Distribution/Abundance-Species-LPoisson-1.pdf) and available in the R package [poilog](http://cran.r-project.org/web/packages/poilog/index.html).  More recently, the log-Normal Poisson has been criticized as not an appropriate distribution for the abundances of species [Williamson and Gaston, J Animal Ecology, 2005](http://poel.io-warnemuende.de/tl_files/scripte/statistikseminar/williamsen_2005_lognormal.pdf).  Yet in some situations, such as those previously described, the log-normal distribution may be appropriate.  
 
+# Maximum Likelihood estimation of log-Normal Poisson species abundance data
+
+We observe species frequencies $n_{j}$, the number of species observed exactly $j$ times for $j = 1, 2, \ldots$.  The probability of a random species having count $j$ is equal to
+$$\begin{align}
+\Pr (x = j) &= \int_{0}^{\infty} \frac{\lambda^{j} e^{-\lambda}}{j !} \frac{1}{\lambda \sigma \sqrt{2 \pi}} e^{- \frac{(\ln \lambda - \mu)^{2}}{2 \sigma^{2}}} d \lambda \notag \\
+&= \frac{1}{j ! \sigma \sqrt{2 \pi }} e^{- \frac{\mu^{2}}{2 \sigma^{2}}} \int_{0}^{\infty} \lambda^{j - 1} \exp \big( - \lambda - \frac{(\ln \lambda)^{2}}{2 \sigma^{2}} + \frac{ \mu \ln \lambda}{\sigma^{2}} \big) d \lambda \notag \\
+&= \exp \big( j \mu + j^{2} \sigma^{2}/2 \big) \frac{1}{j ! \sigma \sqrt{2 \pi}} \int_{-\infty}^{\infty} \exp \big( - \exp(y)) \exp \big( - \frac{( y - \mu - j \sigma^{2})^2}{2 \sigma^{2}} \big) d y; \quad y = \ln \lambda
+\notag
+\end{align}$$
