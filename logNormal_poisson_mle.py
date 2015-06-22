@@ -39,7 +39,7 @@ def read_counts(input_file):
   # form histogram from counts using numpy histogram
   np.asarray(counts)
   max_count = np.amax(counts)
-  counts_hist, bin_edges = np.histogram(counts, bins = range(1, max_count + 1))
+  counts_hist, bin_edges = np.histogram(counts, bins = range(1, max_count + 2), range = [1, max_count + 2])
   return counts_hist 
   
 
